@@ -1,5 +1,7 @@
 # LJAutoPush
 
+![](./store/promo-1280x800.png)
+
 [로컬 저지](https://localjudge.com/)에 낸 제출을 GitHub 저장소 `LJAutoPush`에 올리는 크롬 익스텐션입니다. 서버 없이 브라우저 안에서만 동작합니다.
 
 ## 사용
