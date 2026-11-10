@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "LJAutoPush",
+  "version": "0.1.0",
+  "description": "로컬 저지(localjudge.com)에 낸 제출을 GitHub 저장소에 올립니다.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "LJAutoPush",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": [
+    "https://localjudge.com/*",
+    "https://api.github.com/*",
+    "https://github.com/login/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://localjudge.com/*"],
+      "js": ["config.js", "parser.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>LJAutoPush</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<header>
+  <img src="icons/icon48.png" alt="" width="28" height="28">
+  <h1>LJ<span>AutoPush</span></h1>
+  <button id="help-btn" class="ghost" aria-label="사용 방법" aria-expanded="false" aria-controls="help" title="사용 방법">?</button>
+</header>
+
+<section id="help" hidden>
+  <label>사용 방법</label>
+  <ol>
+    <li>로컬 저지에 로그인한 탭에서 이 창을 엽니다.</li>
+    <li>로컬 저지 닉네임을 입력합니다.</li>
+    <li><b>GitHub 연동</b>을 누르고, 표시된 코드를 GitHub 화면에 붙여 넣어 승인합니다. 비공개 저장소 <code>LJAutoPush</code>가 만들어집니다.</li>
+    <li><b>전부</b>: 체크한 결과의 내 제출을 모두 올립니다. 이미 올린 제출은 건너뜁니다.</li>
+    <li><b>하나</b>: 입력한 제출 번호 하나만 올립니다. 이미 있으면 덮어씁니다.</li>
+  </ol>
+  <ul>
+    <li>올리는 동안 이 창은 닫아도 되지만 로컬 저지 탭은 열어 두세요.</li>
+    <li>버튼이 눌리지 않으면 로컬 저지 탭을 새로고침하세요.</li>
+    <li>저장소를 공개로 바꾸면 풀이가 드러납니다.</li>
+  </ul>
+</section>
+
+<section>
+  <label for="nick">로컬 저지 닉네임</label>
+  <input id="nick" type="text" placeholder="예: bampal2" autocomplete="off" spellcheck="false">
+</section>
+
+<section>
+  <label>GitHub</label>
+  <div id="auth-off">
+    <button id="connect" class="primary">GitHub 연동</button>
+  </div>
+  <div id="auth-pending" hidden>
+    <p class="hint">아래 코드를 GitHub에 입력하면 연동됩니다.</p>
+    <div id="code" class="code"></div>
+    <button id="open-github" class="primary">코드 복사하고 GitHub 열기</button>
+    <button id="cancel-auth" class="ghost">취소</button>
+  </div>
+  <div id="auth-on" hidden>
+    <a id="repo-link" target="_blank" rel="noopener"></a>
+    <span id="repo-vis" class="pill"></span>
+    <button id="logout" class="ghost small">연동 해제</button>
+  </div>
+  <p id="auth-error" class="error" hidden></p>
+</section>
+
+<section>
+  <label>업로드</label>
+  <p id="site-note" class="note" hidden></p>
+  <button id="open-site" class="ghost" hidden>내 제출 내역 열기</button>
+  <div class="line">
+    <button id="run-all" class="primary">전부</button>
+    <div class="checks">
+      <label><input type="checkbox" data-result="ok" checked> 해결</label>
+      <label><input type="checkbox" data-result="bad" checked> 오답</label>
+      <label><input type="checkbox" data-result="warn" checked> 채점 깨짐</label>
+    </div>
+  </div>
+  <div class="line">
+    <input id="one-id" type="number" min="1" placeholder="제출 번호">
+    <button id="run-one" class="primary">하나</button>
+  </div>
+</section>
+
+<section id="progress" hidden>
+  <div class="bar"><div id="bar-fill"></div></div>
+  <div class="line between">
+    <span id="msg" class="hint"></span>
+    <button id="stop" class="ghost small" hidden>중지</button>
+  </div>
+  <pre id="log"></pre>
+</section>
+
+<script src="config.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>
