@@ -77,4 +77,4 @@ README.md
 
 [MIT](LICENSE)
 
-[BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub)와 [BOJAutoPush](https://github.com/c2lv/BOJAutoPush)의 아이디어와 저장 구조를 참고했습니다.
+[BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub)를 참고했습니다.
