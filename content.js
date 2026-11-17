@@ -154,7 +154,11 @@
   }
 
   chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
-    if (msg.type === 'ping') sendResponse({ ok: true, running });
+    if (msg.type === 'ping') {
+      // 로그인했으면 머리말의 "/me" 링크에 내 닉네임이 있습니다.
+      const who = document.querySelector('header a[href="/me"]');
+      sendResponse({ ok: true, running, me: who ? who.textContent.trim() : '' });
+    }
     else if (msg.type === 'stop') {
       stopRequested = true;
       sendResponse({ ok: true });

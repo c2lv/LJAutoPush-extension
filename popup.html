@@ -16,18 +16,26 @@
   <label>사용 방법</label>
   <ol>
     <li>로컬 저지에 로그인한 탭에서 이 창을 엽니다.</li>
-    <li>로컬 저지 닉네임을 입력합니다.</li>
+    <li>닉네임 칸이 비어 있으면 로그인한 계정으로 채워집니다. 다른 닉네임을 넣어도 됩니다.</li>
     <li><b>GitHub 연동</b>을 누르고, 표시된 코드를 GitHub 화면에 붙여 넣어 승인합니다. 비공개 저장소 <code>LJAutoPush</code>가 만들어집니다.</li>
     <li><b>전부</b>: 체크한 결과의 내 제출을 모두 올립니다. 이미 올린 제출은 건너뜁니다.</li>
     <li><b>하나</b>: 입력한 제출 번호 하나만 올립니다. 이미 있으면 덮어씁니다.</li>
+    <li><b>검증</b>: 다른 유저의 제출을 내 기기에서 다시 돌립니다. 내가 푼 프롬프트 문제만 검증할 수 있고, 닉네임과 GitHub 연동은 필요 없습니다.</li>
   </ol>
   <ul>
     <li>올리는 동안 이 창은 닫아도 되지만 로컬 저지 탭은 열어 두세요.</li>
     <li>버튼이 눌리지 않으면 로컬 저지 탭을 새로고침하세요.</li>
+    <li>검증은 새 탭에서 돌아갑니다. 끝날 때까지 그 탭을 닫거나 다른 탭으로 옮기지 마세요.</li>
     <li>저장소를 공개로 바꾸면 풀이가 드러납니다.</li>
   </ul>
 </section>
 
+<div class="tabs" role="tablist">
+  <button id="tab-upload" role="tab" data-tab="upload" aria-controls="pane-upload">업로드</button>
+  <button id="tab-verify" role="tab" data-tab="verify" aria-controls="pane-verify">검증</button>
+</div>
+
+<div id="pane-upload" role="tabpanel" aria-labelledby="tab-upload">
 <section>
   <label for="nick">로컬 저지 닉네임</label>
   <input id="nick" type="text" placeholder="예: bampal2" autocomplete="off" spellcheck="false">
@@ -55,7 +63,7 @@
 <section>
   <label>업로드</label>
   <p id="site-note" class="note" hidden></p>
-  <button id="open-site" class="ghost" hidden>내 제출 내역 열기</button>
+  <button id="open-site" class="ghost">내 제출 내역 열기</button>
   <div class="line">
     <button id="run-all" class="primary">전부</button>
     <div class="checks">
@@ -69,12 +77,34 @@
     <button id="run-one" class="primary">하나</button>
   </div>
 </section>
+</div>
+
+<div id="pane-verify" role="tabpanel" aria-labelledby="tab-verify" hidden>
+<section>
+  <label>검증</label>
+  <div id="v-list-opts">
+    <p class="hint">최신 제출 내역부터 검증합니다.</p>
+    <div class="checks">
+      <label><input type="checkbox" data-vresult="ok" checked> 해결</label>
+      <label><input type="checkbox" data-vresult="bad"> 오답</label>
+      <label><input type="checkbox" data-vresult="warn"> 채점 깨짐</label>
+    </div>
+    <input id="v-problem" type="text" placeholder="문제 번호(예: P13, 입력하지 않으면 전체)" autocomplete="off" spellcheck="false">
+  </div>
+  <div class="line">
+    <input id="v-max" type="number" min="1" max="20" value="1" aria-label="검증할 제출 수">
+    <span class="hint unit">개까지</span>
+    <button id="run-verify" class="primary">검증</button>
+  </div>
+</section>
+</div>
 
 <section id="progress" hidden>
   <div class="bar"><div id="bar-fill"></div></div>
   <div class="line between">
     <span id="msg" class="hint"></span>
     <button id="stop" class="ghost small" hidden>중지</button>
+    <button id="clear" class="ghost small" hidden>지우기</button>
   </div>
   <pre id="log"></pre>
 </section>

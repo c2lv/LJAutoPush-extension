@@ -113,10 +113,15 @@ const LJParser = (() => {
       const id = link && Number(link.getAttribute('href').split('/')[2]);
       if (!id) continue;
       const user = tr.querySelector('a[href^="/u/"]');
+      const problem = tr.querySelector('a[href^="/problems/"]');
+      const length = [...tr.children].map((td) => clean(td.textContent)).find((t) => /\d+\s*자$|\d+\s*chars?$/i.test(t)) || '';
       items.set(id, {
         id,
         user: user ? decodeURIComponent(user.getAttribute('href').slice(3)) : '',
         result: resultKey(tr),
+        problem: problem ? problem.getAttribute('href').split('/')[2] : '',
+        // 'prompt': 모델에 넣는 프롬프트 문제, 'code': 파이썬·SQL 같은 코드 문제
+        kind: !length ? '' : /프롬프트|prompt/i.test(length) ? 'prompt' : 'code',
       });
     }
     return [...items.values()];
@@ -229,5 +234,14 @@ const LJParser = (() => {
     return { title, markdown: lines.join('\n') };
   }
 
-  return { RESULT_LABEL, parseList, hasPage, parseSubmission, submissionMarkdown, problemMarkdown };
+  // 프로필(/u/닉네임)의 "푼 문제" 목록: ['B114', 'P01', ...]
+  function parseSolved(doc) {
+    const h2 = [...doc.querySelectorAll('main h2')].find((h) => /^\s*(푼 문제|Solved)/i.test(h.textContent));
+    if (!h2) return null;
+    const box = h2.closest('section') || h2.parentElement;
+    const ids = [...box.querySelectorAll('a[href^="/problems/"]')].map((a) => a.getAttribute('href').split('/')[2]);
+    return [...new Set(ids.filter(Boolean))];
+  }
+
+  return { RESULT_LABEL, parseList, hasPage, parseSubmission, submissionMarkdown, problemMarkdown, parseSolved };
 })();
